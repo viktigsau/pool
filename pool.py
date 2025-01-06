@@ -40,13 +40,13 @@ class Pool:
 
         self.window = window
 
-        self.update_thread = Thread(target=self.start_update_cycle, args=(1,))
+        self.update_thread = Thread(target=self.start_update_cycle, args=(25,))
         self.update_thread.start()
 
     def start_update_cycle(self, ups: int):
         delay = 1/ups
         while True:
-            speed.thread(self.balls, lambda ball: ball.update(self.balls), use_threads=False)
+            speed.thread(self.balls, lambda ball: ball.update(self.balls), use_threads=True)
             time.sleep(delay)
 
     def render(self):
