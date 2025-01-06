@@ -18,7 +18,7 @@ class Ball:
 
         return (collition_vector, colliding)
     
-    def update(self, balls):
+    def update(self, balls, pygame):
         if "static" in self.flags and self.flags["static"]:
             self.pos = Vec2(*pygame.mouse.get_pos()) - Vec2(*pygame.display.get_window_size()) / 2
 
@@ -50,13 +50,16 @@ class Pool:
         self.update_thread = Thread(target=self.start_update_cycle, args=(25,))
         self.update_thread.start()
 
+        self.pygame = pygame
+
     def start_update_cycle(self, ups: int):
         delay = 1/ups
         while True:
-            speed.thread(self.balls, lambda ball: ball.update(self.balls), use_threads=True)
+            speed.thread(self.balls, lambda ball: ball.update(self.balls, self.pygame), use_threads=True)
             time.sleep(delay)
 
-    def render(self):
+    def render(self, pygame):
+        self.pygame = pygame
         offset = Vec2(*self.window.get_size()) / 2
         for ball in self.balls:
             pygame.draw.circle(self.window, (255, 0, 0), (ball.pos + offset).tuple(), ball.r)
