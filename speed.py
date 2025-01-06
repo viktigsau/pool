@@ -8,8 +8,7 @@ def split(list, n):
 def thread(list, func, num_threads: int | None=None, max_usage: float=90.0, *args):
     if not num_threads:
         total_threads = psutil.cpu_count(logical=True)
-        num_threads = round(total_threads * (max_usage / 100)) 
-
+        num_threads = int(round(total_threads * (max_usage / 100))) 
 
     list_len = len(list)
     calculated = list_len // num_threads
