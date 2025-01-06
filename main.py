@@ -11,7 +11,8 @@ while runing:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             runing = False
-    
+    window.fill((0, 0, 0))
+
     pool.render()
 
     pygame.display.flip()

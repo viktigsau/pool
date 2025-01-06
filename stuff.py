@@ -27,10 +27,11 @@ class Vec2:
             return Vec2(1, 0)
     
     def dist(self, other):
-        return abs((self - other).__len__())
+        return (self - other).__len__()
     
     def __len__(self):
-        return sqrt(self.x + self.y)
+        return sqrt(abs(self.x + self.y))
+
     
     def tuple(self):
         return (self.x, self.y)
