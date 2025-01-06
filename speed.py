@@ -5,7 +5,7 @@ import psutil
 def split(list, n):
     return [list[i:i+n] for i in range(0, len(list), n)]
 
-def thread(list, func, num_threads: int | None=None, max_usage: float=90.0, *args):
+def thread(list, func, num_threads: int | None=None, max_usage: float=90.0, use_threads: bool=True, *args):
     if not num_threads:
         total_threads = psutil.cpu_count(logical=True)
         num_threads = int(round(total_threads * (max_usage / 100))) 
@@ -22,12 +22,15 @@ def thread(list, func, num_threads: int | None=None, max_usage: float=90.0, *arg
             for j, item in enumerate(part):
                 out[i * part_len + j] = func(item, *args)
 
-        thread = Thread(target=calc, args=(part,))
-        thread.start()
-        threads.append(thread)
+        if use_threads:
+            thread = Thread(target=calc, args=(part,))
+            thread.start()
+            threads.append(thread)
 
-        while psutil.cpu_percent() > max_usage:
-            ...
+            while psutil.cpu_percent() > max_usage:
+                ...
+        else:
+            calc(part)
     
     for thread in threads:
         thread.join()

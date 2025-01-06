@@ -27,7 +27,7 @@ class Vec2:
             return Vec2(1, 0)
     
     def dist(self, other):
-        return len(self - other)
+        return abs((self - other).__len__())
     
     def __len__(self):
         return sqrt(self.x + self.y)
